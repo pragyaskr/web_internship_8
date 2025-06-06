@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .form-container {
+            width: 430px;
+            margin: 40px auto;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        form {
+            width: 100%;
+        }
+        .row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        .row label {
+            width: 85px;
+            margin-right: 8px;
+            padding-top: 4px;
+        }
+        .row input[type="text"],
+        .row input[type="email"],
+        .row textarea {
+            flex: 1;
+            padding: 6px;
+            border: 2px solid #ccc;
+            border-radius: 3px;
+            font-size: 1em;
+        }
+        .row textarea {
+            resize: vertical;
+            height: 60px;
+        }
+        .error {
+            color: #e60026;
+            font-size: 0.97em;
+            margin-left: 12px;
+            min-width: 180px;
+            padding-top: 4px;
+        }
+        .row input.error-border,
+        .row textarea.error-border {
+            border-color: #e60026;
+        }
+        .submit-row {
+            text-align: left;
+            margin-left: 93px;
+        }
+        input[type="submit"] {
+            padding: 6px 18px;
+            font-size: 1em;
+            background: #f5f5f5;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h2>Registration Form</h2>
+    <form id="regForm" autocomplete="off" novalidate>
+        <div class="row">
+            <label for="name">Name:</label>
+            <input type="text" id="name">
+            <span class="error" id="nameError"></span>
+        </div>
+        <div class="row">
+            <label for="email">Email:</label>
+            <input type="text" id="email">
+            <span class="error" id="emailError"></span>
+        </div>
+        <div class="row">
+            <label for="website">Website:</label>
+            <input type="text" id="website">
+            <span class="error" id="websiteError"></span>
+        </div>
+        <div class="row">
+            <label for="message">Message:</label>
+            <textarea id="message"></textarea>
+            <span class="error" id="messageError"></span>
+        </div>
+        <div class="submit-row">
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+</div>
+<script>
+    document.getElementById("regForm").onsubmit = function(e) {
+        e.preventDefault();
+
+        // Clear previous errors
+        var fields = ["name", "email", "website", "message"];
+        fields.forEach(function(field) {
+            document.getElementById(field).classList.remove("error-border");
+            document.getElementById(field + "Error").textContent = "";
+        });
+
+        var valid = true;
+
+        // Name validation
+        var name = document.getElementById("name").value.trim();
+        if (name === "") {
+            document.getElementById("nameError").textContent = "This field is required";
+            document.getElementById("name").classList.add("error-border");
+            valid = false;
+        }
+
+        // Email validation
+        var email = document.getElementById("email").value.trim();
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (email === "") {
+            document.getElementById("emailError").textContent = "A valid email address is required";
+            document.getElementById("email").classList.add("error-border");
+            valid = false;
+        } else if (!emailPattern.test(email)) {
+            document.getElementById("emailError").textContent = "A valid email address is required";
+            document.getElementById("email").classList.add("error-border");
+            valid = false;
+        }
+
+        // Website validation
+        var website = document.getElementById("website").value.trim();
+        var urlPattern = /^(https?:\/\/)?([\w\-]+\.)+[a-zA-Z]{2,}(\/\S*)?$/;
+        if (website === "") {
+            document.getElementById("websiteError").textContent = "A valid url is required";
+            document.getElementById("website").classList.add("error-border");
+            valid = false;
+        } else if (!urlPattern.test(website)) {
+            document.getElementById("websiteError").textContent = "A valid url is required";
+            document.getElementById("website").classList.add("error-border");
+            valid = false;
+        }
+
+        // Message validation
+        var message = document.getElementById("message").value.trim();
+        if (message === "") {
+            document.getElementById("messageError").textContent = "This field is required";
+            document.getElementById("message").classList.add("error-border");
+            valid = false;
+        }
+
+        if (valid) {
+            alert("Form submitted successfully!");
+            document.getElementById("regForm").reset();
+        }
+    };
+</script>
+</body>
+</html>
